@@ -71,5 +71,5 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          python login.py "${USERNAME}" "${PASSWORD}"
+          python login.py 
 
