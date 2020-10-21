@@ -72,4 +72,3 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           python login.py 
-
