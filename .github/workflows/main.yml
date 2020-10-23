@@ -72,5 +72,5 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           echo $USERNAME
-          echo PASSWORD
+          echo $PASSWORD
           python login.py 
