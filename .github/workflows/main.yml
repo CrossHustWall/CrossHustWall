@@ -68,9 +68,11 @@ jobs:
 
       - name: Start Login
         env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           echo $USERNAME
           echo $PASSWORD
+          echo $GITHUB_TOKEN
           python login.py 
