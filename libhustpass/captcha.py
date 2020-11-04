@@ -8,7 +8,7 @@ def Fuckit(imageContent):
     imgdepointed = imgbinarized.filter(ImageFilter.MedianFilter(5))
     # binarizedImage = binarizing(imageObject, 255)
     # depointedImage = depoint(binarizedImage)
-    code = image_to_string(depointedImage, config='--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789')
+    code = image_to_string(imgdepointed, config='--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789')
     return code
 
 def binarizing(img,threshold):
