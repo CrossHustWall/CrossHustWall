@@ -1,4 +1,4 @@
-from PIL import Image, GifImagePlugin
+from PIL import Image, GifImagePlugin, ImageFilter
 from pytesseract import image_to_string
 
 def Fuckit(imageContent):
