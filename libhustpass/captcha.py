@@ -4,6 +4,7 @@ from pytesseract import image_to_string
 def Fuckit(imageContent):
     imageObject = Image.open(imageContent)
     imageObject.seek(1)
+    grayImage = imageObject.convert("L")
     binarizedImage = imageObject.point(lambda i: i < 255 and 255)
     #binarizedImage = binarizing(imageObject, 255)
     depointedImage = binarizedImage.filter(ImageFilter.MedianFilter(5))
