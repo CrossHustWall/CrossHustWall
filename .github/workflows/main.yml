@@ -23,7 +23,6 @@ jobs:
 
       - name: Install tesseract-ocr  
         run: |
-          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
           echo "deb https://notesalexp.org/tesseract-ocr/bionic/ bionic main" | sudo tee /etc/apt/sources.list > /dev/null
           wget -O - https://notesalexp.org/debian/alexp_key.asc | sudo apt-key add -
           sudo apt-get update
