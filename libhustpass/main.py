@@ -54,34 +54,41 @@ def strenc(data, first_key, second_key, third_key):
 
 def doLogin(username, password, url):
     r = requests.session()
-    login_html = r.get(url)
-    captcha_content = r.get("https://pass.hust.edu.cn/cas/code?"+str(random.random()), stream=True)
-    captcha_content.raw.decode_content = True
-    nonce = re.search(
-        '<input type="hidden" id="lt" name="lt" value="(.*)" />', login_html.text
-    ).group(1)
-    action = re.search(
-        '<form id="loginForm" action="(.*)" method="post">', login_html.text
-    ).group(1)
-    post_params = {
-        "code": FuckCaptcha.Fuckit(captcha_content.raw)[0:4],
-        "rsa": strenc(username + password + nonce, "1", "2", "3"),
-        "ul": len(username),
-        "pl": len(password),
-        "lt": nonce,
-        "execution": "e1s1",
-        "_eventId": "submit",
-    }
-    redirect_html = r.post(
-        "https://pass.hust.edu.cn" + action, data=post_params, allow_redirects=False
-    )
-    # print(redirect_html.headers["Location"])
+    i = 0
+    postnum_max = 5
+    while(i < postnum_max):
+        login_html = r.get(url)
+        captcha_content = r.get("https://pass.hust.edu.cn/cas/code?"+str(random.random()), stream=True)
+        captcha_content.raw.decode_content = True
+        nonce = re.search(
+            '<input type="hidden" id="lt" name="lt" value="(.*)" />', login_html.text
+        ).group(1)
+        action = re.search(
+            '<form id="loginForm" action="(.*)" method="post">', login_html.text
+        ).group(1)
+        post_params = {
+            "code": FuckCaptcha.Fuckit(captcha_content.raw)[0:4],
+            "rsa": strenc(username + password + nonce, "1", "2", "3"),
+            "ul": len(username),
+            "pl": len(password),
+            "lt": nonce,
+            "execution": "e1s1",
+            "_eventId": "submit",
+        }
+        redirect_html = r.post(
+            "https://pass.hust.edu.cn" + action, data=post_params, allow_redirects=False
+        )
+        # print(redirect_html.headers["Location"])
 
 
-    try:
-        return redirect_html.headers["Location"]
-    except Exception:
-        return "login failed"
+        try:
+            Location = redirect_html.headers["Location"]
+            i = 3
+            return Location
+        except Exception:
+            i = i + 1
+            if (i >= postnum_max):
+                return "login failed"
 
 
 # doLogin("username","<REDACTED>","https://one.hust.edu.cn/dcp/")
