@@ -83,7 +83,7 @@ def doLogin(username, password, url):
 
         try:
             Location = redirect_html.headers["Location"]
-            i = 3
+            i = postnum_max
             return Location
         except Exception:
             i = i + 1
