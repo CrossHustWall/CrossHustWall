@@ -78,7 +78,7 @@ def doLogin(username, password, url):
         redirect_html = r.post(
             "https://pass.hust.edu.cn" + action, data=post_params, allow_redirects=False
         )
-        # print(redirect_html.headers["Location"])
+        print(redirect_html.headers["Location"])
 
 
         try:
