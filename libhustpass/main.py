@@ -89,6 +89,7 @@ def doLogin(username, password, url):
             i = postnum_max
             return Location
         except Exception:
+            print(str(i)+":fail")
             i = i + 1
             if (i >= postnum_max):
                 return "login failed"
