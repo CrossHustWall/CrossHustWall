@@ -4,8 +4,8 @@ import requests
 import re
 import random
 import urllib3
-requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = 'ALL:@SECLEVEL=1'
-
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += ':HIGH:!DH:!aNULL'
+requests.packages.urllib3.disable_warnings()
 
 proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
 
