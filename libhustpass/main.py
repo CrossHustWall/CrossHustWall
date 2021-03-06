@@ -1,5 +1,5 @@
-import sbDes as sbDes
-import captcha as FuckCaptcha
+import libhustpass.sbDes as sbDes
+import libhustpass.captcha as FuckCaptcha
 import requests
 import re
 import random
