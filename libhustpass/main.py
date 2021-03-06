@@ -59,7 +59,7 @@ def doLogin(username, password, url):
     print("bug001")
     r = requests.session()
     i = 0
-    postnum_max = 1
+    postnum_max = 5
     while(i < postnum_max):
         print("bug002")
         login_html = r.get(url)
