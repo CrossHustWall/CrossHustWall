@@ -53,9 +53,12 @@ def strenc(data, first_key, second_key, third_key):
 
 
 def doLogin(username, password, url):
+    print("bug001")
     r = requests.session()
     login_html = r.get(url)
+    print("bug002")
     captcha_content = r.get("https://pass.hust.edu.cn/cas/code?"+str(random.random()), stream=True)
+    print("bug003")
     captcha_content.raw.decode_content = True
     nonce = re.search(
         '<input type="hidden" id="lt" name="lt" value="(.*)" />', login_html.text
@@ -72,9 +75,11 @@ def doLogin(username, password, url):
         "execution": "e1s1",
         "_eventId": "submit",
     }
+    print("bug004")
     redirect_html = r.post(
         "https://pass.hust.edu.cn" + action, data=post_params, allow_redirects=False
     )
+    print("bug005")
     # print(redirect_html.headers["Location"])
 
 
