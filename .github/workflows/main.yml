@@ -7,7 +7,7 @@ name: CI
 on:
   push: 
   schedule: 
-      - cron: '55 10,22 * * *'
+      - cron: '30 11,23 * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,7 +23,10 @@ jobs:
 
       - name: Install tesseract-ocr  
         run: |
-          sudo apt-get install tesseract-ocr  
+          sudo add-apt-repository ppa:alex-p/tesseract-ocr-devel
+          sudo apt-get update
+          sudo apt-get install tesseract-ocr
+          dpkg -s tesseract-ocr
       #- name: Install Chrome
       #  run: |
       #    sudo echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
@@ -36,7 +39,7 @@ jobs:
 
       - name: install chrome
         run: |
-          sudo apt-get update
+          
           sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
           sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
           sudo su -c "echo 'deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list"
@@ -44,7 +47,7 @@ jobs:
           sudo apt-get -y install google-chrome-stable
           
           version=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-          wget "https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip"
+          wget "https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip"
           sudo unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/bin/chromedriver
           sudo chown root:root /usr/bin/chromedriver

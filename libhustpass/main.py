@@ -3,6 +3,9 @@ import libhustpass.captcha as FuckCaptcha
 import requests
 import re
 import random
+import urllib3
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += ':HIGH:!DH:!aNULL'
+requests.packages.urllib3.disable_warnings()
 
 proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
 
@@ -26,20 +29,20 @@ def strenc(data, first_key, second_key, third_key):
 
     i = 0
     while i < len(data_bytes):
-        tmp = data_bytes[i : i + 8]
+        tmp = data_bytes[i:i + 8]
         x = 0
         y = 0
         z = 0
         while x < len(key1_bytes):
-            enc1_ = sbDes.des(key1_bytes[x : x + 8], sbDes.ECB)
+            enc1_ = sbDes.des(key1_bytes[x:x + 8], sbDes.ECB)
             tmp = list(enc1_.encrypt(tmp))
             x += 8
         while y < len(key2_bytes):
-            enc2_ = sbDes.des(key2_bytes[y : y + 8], sbDes.ECB)
+            enc2_ = sbDes.des(key2_bytes[y:y + 8], sbDes.ECB)
             tmp = list(enc2_.encrypt(tmp))
             y += 8
         while z < len(key3_bytes):
-            enc3_ = sbDes.des(key3_bytes[z : z + 8], sbDes.ECB)
+            enc3_ = sbDes.des(key3_bytes[z:z + 8], sbDes.ECB)
             tmp = list(enc3_.encrypt(tmp))
             z += 8
         ret_.extend(tmp)
@@ -54,35 +57,46 @@ def strenc(data, first_key, second_key, third_key):
 
 def doLogin(username, password, url):
     r = requests.session()
-    login_html = r.get(url)
-    captcha_content = r.get("https://pass.hust.edu.cn/cas/code?"+str(random.random()), stream=True)
-    captcha_content.raw.decode_content = True
-    nonce = re.search(
-        '<input type="hidden" id="lt" name="lt" value="(.*)" />', login_html.text
-    ).group(1)
-    action = re.search(
-        '<form id="loginForm" action="(.*)" method="post">', login_html.text
-    ).group(1)
-    post_params = {
-        "code": FuckCaptcha.Fuckit(captcha_content.raw)[0:4],
-        "rsa": strenc(username + password + nonce, "1", "2", "3"),
-        "ul": len(username),
-        "pl": len(password),
-        "lt": nonce,
-        "execution": "e1s1",
-        "_eventId": "submit",
-    }
-    redirect_html = r.post(
-        "https://pass.hust.edu.cn" + action, data=post_params, allow_redirects=False
-    )
-    # print(redirect_html.headers["Location"])
+    i = 0
+    postnum_max = 5
+    while (i < postnum_max):
+        login_html = r.get(url)
+        captcha_content = r.get("https://pass.hust.edu.cn/cas/code?" +
+                                str(random.random()),
+                                stream=True)
+        captcha_content.raw.decode_content = True
+        nonce = re.search(
+            '<input type="hidden" id="lt" name="lt" value="(.*)" />',
+            login_html.text).group(1)
+        action = re.search('<form id="loginForm" action="(.*)" method="post">',
+                           login_html.text).group(1)
+        post_params = {
+            "code": FuckCaptcha.Fuckit(captcha_content.raw)[0:4],
+            "rsa": strenc(username + password + nonce, "1", "2", "3"),
+            "ul": len(username),
+            "pl": len(password),
+            "lt": nonce,
+            "execution": "e1s1",
+            "_eventId": "submit",
+        }
+        redirect_html = r.post("https://pass.hust.edu.cn" + action,
+                               data=post_params,
+                               allow_redirects=False)
 
-
-    try:
-        return redirect_html.headers["Location"]
-    except Exception:
-        return "login failed"
+        try:
+            print(redirect_html.headers["Location"])
+            Location = redirect_html.headers["Location"]
+            i = postnum_max
+            return Location
+        except Exception:
+            print(str(i)+":fail")
+            i = i + 1
+            if (i >= postnum_max):
+                return "login failed"
 
 
 # doLogin("username","<REDACTED>","https://one.hust.edu.cn/dcp/")
 
+if __name__ == "__main__":
+    doLogin('D202080771', 'husthu456789',
+            'http://access.hust.edu.cn/IDKJ-P/P/studentApi')

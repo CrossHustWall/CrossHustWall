@@ -6,7 +6,9 @@ from libhustpass import main
 import sys
 
 ticket = main.doLogin(os.environ['USERNAME'],os.environ['PASSWORD'],"http://access.hust.edu.cn/IDKJ-P/P/studentApi")
+print("this is username and password")
 print(os.environ['USERNAME'],os.environ['PASSWORD'])
+print("this is ticket")
 print(ticket)
 
 from selenium import webdriver
