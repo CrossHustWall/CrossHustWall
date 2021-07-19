@@ -14,4 +14,3 @@
 ![填写Secrets](./img1.png)
 ## 3.  启用action
 ![启用action](./img2.png)
- 
