@@ -3,7 +3,7 @@ name: 'Avoid workflow being suspended'
 on:
   workflow_dispatch:
     branches: 
-    - action
+    - main
 
 jobs:
   avoid_workflow_suspended:
