@@ -2,8 +2,8 @@ name: 'Avoid workflow being suspended'
 
 on:
   workflow_dispatch:
-    branches: 
-    - main
+  schedule:
+    - cron: '0 0 1 * *'
 
 jobs:
   avoid_workflow_suspended:
@@ -25,7 +25,7 @@ jobs:
           echo ::set-output name=status::success
            
       - name: 'GitHub Push'
-        if: steps.commit.outputs.status == 'success'
+        if: steps.commit.output.status != 'success'
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
