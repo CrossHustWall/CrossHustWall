@@ -11,7 +11,7 @@ print(ticket)
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
+from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")
@@ -37,11 +37,11 @@ except Exception:
 
 
 time.sleep(1)
-driver.find_element_by_class_name("am-button").click()
+driver.find_element(By.CLASS_NAME, "am-button").click()
 time.sleep(1)
-driver.find_element_by_class_name("textArea").send_keys("吃饭")
+driver.find_element(By.CLASS_NAME, "textArea").send_keys("吃饭")
 time.sleep(1)
-driver.find_element_by_class_name("submitbtn").click()
+driver.find_element(By.CLASS_NAME, "submitbtn").click()
 time.sleep(5)
 print (driver.title)
 
