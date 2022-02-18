@@ -39,7 +39,7 @@ except Exception:
 time.sleep(1)
 driver.find_element_by_class_name("am-button").click()
 time.sleep(1)
-driver.find_element_by_class_name("textArea").send_keys("吃饭")
+driver.find_element_by_class_name("textArea").send_keys("跑步")
 time.sleep(1)
 driver.find_element_by_class_name("submitbtn").click()
 time.sleep(5)
