@@ -71,6 +71,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          USERNAMEZ: ${{ secrets.USERNAMEZ }}
+          PASSWORDZ: ${{ secrets.PASSWORDZ }}
         run: |
           echo $USERNAME
           echo $PASSWORD
